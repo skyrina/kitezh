@@ -1,0 +1,45 @@
+{
+    "nix.enableLanguageServer": true,
+    "nix.serverPath": "nil", // or "nixd"
+    // LSP config can be passed via the ``nix.serverSettings.{lsp}`` as shown below.
+    "nix.serverSettings": {
+        // check https://github.com/oxalica/nil/blob/main/docs/configuration.md for all options available
+        "nil": {
+            // "diagnostics": {
+            //  "ignored": ["unused_binding", "unused_with"],
+            // },
+            "formatting": {
+                "command": [
+                    "nixfmt"
+                ],
+            },
+            "maxMemoryMB": 8192,
+            "flake": {
+                "autoArchive": true,
+                "autoEvalInputs": true,
+            },
+        },
+        // check https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md for all nixd config
+        "nixd": {
+            "formatting": {
+                "command": [
+                    "nixfmt"
+                ],
+            },
+            "nixpkgs": {
+                "expr": "import (toString ./.).inputs.nixpkgs { }"
+            },
+            "options": {
+                "nixos": {
+                    "expr": "import (toString ./.).nixosConfigurations.molly.options"
+                },
+                "flake-parts": {
+                    "expr": "(toString ./.).debug.options"
+                },
+                //   "home-manager": {
+                //     "expr": "(builtins.getFlake \"${workspaceFolder}\").homeConfigurations.<name>.options",
+                //   },
+            },
+        }
+    }
+}
