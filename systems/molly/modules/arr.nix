@@ -9,7 +9,7 @@ in
   services.jellyfin.configDir = "${prefix}/jellyfin/config";
   services.jellyfin.dataDir = "${prefix}/jellyfin/data";
 
-  services.caddy.virtualHosts."jellyfin.nyaa.bar" = {
+  services.caddy.virtualHosts."jellyfin.purr.systems" = {
     serverAliases = [ "jellyfin.nya" ];
     extraConfig = ''
       import cloudflare

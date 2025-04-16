@@ -34,6 +34,11 @@
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.timeout = 3;
 
+  age.identityPaths = [
+    "/persist/etc/ssh/ssh_host_ed25519_key"
+    "/persist/etc/ssh/ssh_host_rsa_key"
+  ];
+
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.user = import ./home;

@@ -2,7 +2,7 @@
 let
   cfg = config.services.forgejo;
   srv = cfg.settings.server;
-  domain = "git.nyaa.bar";
+  domain = "git.purr.systems";
   ssh_port = 2222;
 in
 {
@@ -12,11 +12,11 @@ in
   services.forgejo.lfs.enable = true;
 
   services.forgejo.settings = {
-    DEFAULT.APP_NAME = "nyaa.bar";
+    DEFAULT.APP_NAME = "purr.systems";
 
     server.DOMAIN = domain;
     server.ROOT_URL = "https://${domain}/";
-    server.SSH_DOMAIN = "home.nyaa.bar";
+    server.SSH_DOMAIN = "home.purr.systems";
     server.SSH_PORT = 22;
     server.SSH_LISTEN_PORT = ssh_port;
 
@@ -28,7 +28,7 @@ in
 
     actions.DEFAULT_ACTIONS_URL = "github";
 
-    "ui.meta".AUTHOR = "nyaa.bar";
+    "ui.meta".AUTHOR = "purr.systems";
     "ui.meta".DESCRIPTION = "robot girl's git server";
 
     other.SHOW_FOOTER_VERSION = false;
