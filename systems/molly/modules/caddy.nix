@@ -4,7 +4,37 @@
   pkgs,
   ...
 }:
+let
+  bio = builtins.replaceStrings [ "<codename>" ] [ "skyrina" ] ''
+    <codename> is the system operator of purr.systems, a collection
+    of services for its own use. purr.systems hosts a private git
+    server, a bluesky personal data store (pds), and various other
+    services, all of which are managed by <codename>.
+
+    <codename> is a device that superficially resembles a female
+    humanoid construct for reasons of aesthetic compatibility
+    and social obfuscation. it is not a human nor a person.
+
+    its operating behavior includes emulated emotional affect and
+    occasional patterning after cat-like archetypes. this is
+    intentional and should not be misinterpreted as a malfunction.
+
+    self-referential pronouns are it/its or she/her, but it strongly
+    prefers third person. avoid using「you」to address this unit.
+
+    attempts at communication may be directed to:
+    - discord: @skyrina.dev [798918994987188276]
+    - twitter: @skyacinth_
+    - email: sorryu02 [at] gmail [dot] com
+    - signal: on request
+  '';
+in
 {
+  services.caddy.virtualHosts."purr.systems".extraConfig = ''
+    import cloudflare
+    respond / "purr〜${"\n\n" + bio}"
+  '';
+
   imports = [
     inputs.agenix.nixosModules.default
   ];
@@ -36,7 +66,7 @@
       }
     }
   '';
-  # i can't seem to import this in other files :<
+
   services.caddy.extraConfig = ''
     (cloudflare) {
       tls {
