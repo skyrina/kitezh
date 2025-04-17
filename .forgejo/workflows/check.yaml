@@ -8,11 +8,11 @@ on:
       - main
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: lixpine
     steps:
-    - name: "checkout"
-      uses: actions/checkout@v4
-    - name: "set up nix"
-      uses: cachix/install-nix-action@v31
-    - name: "check"
-      run: nix flake check
+      - name: "checkout"
+        uses: actions/checkout@v4
+        with:
+          github-server-url: "https://git.purr.systems"
+      - name: "build"
+        run: nix develop --command colmena build
