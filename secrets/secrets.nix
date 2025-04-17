@@ -1,8 +1,8 @@
 let
-  dev = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF2y6L1lVgpwrC2+P4esCoftNXFHIrBfi4cbwK5fSN73";
+  saturday = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMKDQK22Wqmzd+3f3teCgiS4Qx/QlmCQcIfAeKg7mtcx";
   molly = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICUTtjaYuzdPSDTbxNWNUX3ea/zWi2f4kmlYspXnkpdD";
   all = [
-    dev
+    saturday
     molly
   ];
 in
