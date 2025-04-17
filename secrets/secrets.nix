@@ -12,7 +12,5 @@ in
   "caddy/.env.age".publicKeys = all;
   "caddy/nyaca.key.age".publicKeys = all;
 
-  "forgejo/runner.age".publicKeys = all;
-
   "pds.env.age".publicKeys = all;
 }

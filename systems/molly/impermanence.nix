@@ -16,7 +16,6 @@
       "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
       "/var/lib/docker"
-      "/var/lib/gitea-runner"
       "/var/lib/pds"
       # "/var/lib/nomad" # TODO: delete
 

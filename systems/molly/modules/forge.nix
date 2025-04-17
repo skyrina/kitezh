@@ -1,4 +1,8 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  ...
+}:
 let
   cfg = config.services.forgejo;
   srv = cfg.settings.server;
@@ -26,6 +30,7 @@ in
 
     service.DISABLE_REGISTRATION = true;
 
+    indexer.REPO_INDEXER_ENABLED = true;
     actions.DEFAULT_ACTIONS_URL = "github";
 
     "ui.meta".AUTHOR = "purr.systems";
@@ -44,20 +49,5 @@ in
       import private
       reverse_proxy http://127.0.0.1:${toString srv.HTTP_PORT}
     '';
-  };
-
-  age.secrets."forgejo/runner".file = ../../../secrets/forgejo/runner.age;
-
-  services.gitea-actions-runner.package = pkgs.forgejo-runner;
-  services.gitea-actions-runner.instances.molly = {
-    enable = true;
-    name = "molly";
-    url = "https://${domain}";
-    tokenFile = config.age.secrets."forgejo/runner".path;
-    labels = [
-      "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-latest"
-      "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
-      "ubuntu-20.04:docker://ghcr.io/catthehacker/ubuntu:act-20.04"
-    ];
   };
 }
