@@ -7,10 +7,10 @@ let
   ];
 in
 {
-  "wireguard/molly.age".publicKeys = all;
-
   "caddy/.env.age".publicKeys = all;
   "caddy/nyaca.key.age".publicKeys = all;
+
+  "wireguard/molly.age".publicKeys = all;
 
   "pds.env.age".publicKeys = all;
 }
