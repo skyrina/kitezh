@@ -17,6 +17,9 @@
 
     colmena.url = "github:zhaofengli/colmena";
     colmena.inputs.nixpkgs.follows = "nixpkgs";
+
+    thermo.url = "git+https://git.purr.systems/sky/thermo.git";
+    thermo.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

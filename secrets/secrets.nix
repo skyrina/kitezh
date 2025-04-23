@@ -13,4 +13,6 @@ in
   "wireguard/molly.age".publicKeys = all;
 
   "pds.env.age".publicKeys = all;
+
+  "thermo.env.age".publicKeys = all;
 }

@@ -1,4 +1,5 @@
 {
+
   config,
   inputs,
   pkgs,
@@ -48,8 +49,8 @@ in
 
   services.caddy.enable = true;
   services.caddy.package = pkgs.caddy.withPlugins {
-    plugins = [ "github.com/caddy-dns/cloudflare@v0.0.0-20250228175314-1fb64108d4de" ];
-    hash = "sha256-YYpsf8HMONR1teMiSymo2y+HrKoxuJMKIea5/NEykGc=";
+    plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2-0.20250420134112-006ebb07b349" ];
+    hash = "sha256-2U+icm4GtI5Fww6U8nKzQ/+pPf63T3scTGuj1zjj4b4=";
   };
   services.caddy.environmentFile = config.age.secrets."caddy/.env".path;
 
