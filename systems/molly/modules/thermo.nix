@@ -2,18 +2,27 @@
 {
   age.secrets."thermo.env".file = ../../../secrets/thermo.env.age;
 
+  users.users.thermo = {
+    isSystemUser = true;
+    group = "thermo";
+  };
+  users.groups.thermo = { };
+
   systemd.services.thermo = {
-    requires = [
-      "influxdb2.service"
-      "network-online.target"
-    ];
     after = [
       "network-online.target"
       "influxdb2.service"
+      "dbus.service"
+    ];
+    requires = [
+      "network-online.target"
+      "influxdb2.service"
+      "dbus.service"
     ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
-      DynamicUser = true;
+      User = "thermo";
+      Group = "thermo";
       EnvironmentFile = config.age.secrets."thermo.env".path;
       Restart = "always";
       ExecStart = "${inputs.thermo.packages."x86_64-linux".default}/bin/thermo";
