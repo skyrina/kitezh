@@ -8,6 +8,7 @@
     ./immich.nix
     ./pds.nix
     ./thermo.nix
+    ./vaultwarden.nix
     ./wg.nix
   ];
 }
