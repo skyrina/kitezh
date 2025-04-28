@@ -1,5 +1,6 @@
 {
   inputs,
+  pkgs,
   lib,
   ...
 }:
@@ -24,6 +25,11 @@
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [ intel-media-driver ];
+  };
 
   time.timeZone = "Europe/Bucharest";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -63,6 +69,10 @@
   };
 
   virtualisation.docker.enable = true;
+  systemd.services.docker = {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+  };
   # virtualisation.podman = {
   #   enable = true;
   #   dockerCompat = true;
