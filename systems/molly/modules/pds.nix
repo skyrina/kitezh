@@ -36,8 +36,11 @@
 
   services.caddy.virtualHosts."purr.systems".extraConfig = ''
     import cloudflare
-    @pds_paths path /xrpc/* /oauth/* /.well-known/atproto-did /.well-known/oauth-protected-resource /.well-known/oauth-authorization-server
-    reverse_proxy @pds_paths http://localhost:${toString config.services.pds.settings.PDS_PORT}
+    @xrpc path /xrpc* /.well-known/atproto-did
+    @oauth path /@atproto* /oauth* /.well-known/oauth-protected-resource /.well-known/oauth-authorization-server
+
+    reverse_proxy @xrpc http://localhost:${toString config.services.pds.settings.PDS_PORT}
+    reverse_proxy @oauth http://localhost:${toString config.services.pds.settings.PDS_PORT}
   '';
 
   services.caddy.virtualHosts."*.purr.systems".extraConfig = ''
