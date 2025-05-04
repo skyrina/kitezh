@@ -21,12 +21,10 @@ in
   systemd.services.vaultwarden.serviceConfig.ReadWritePaths = [ cfg.DATA_FOLDER ];
 
   systemd.tmpfiles.settings."10-vaultwarden" = {
-    "${cfg.DATA_FOLDER}" = {
-      d = {
-        mode = "0700";
-        user = serviceConfig.User;
-        group = serviceConfig.Group;
-      };
+    "${cfg.DATA_FOLDER}"."d" = {
+      mode = "0700";
+      user = serviceConfig.User;
+      group = serviceConfig.Group;
     };
   };
 
