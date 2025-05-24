@@ -1,7 +1,7 @@
 { config, ... }:
 let
   cfg = config.services.vaultwarden.config;
-  serviceConfig = config.systemd.services.vaultwarden.serviceConfig;
+  inherit (config.systemd.services.vaultwarden) serviceConfig;
 in
 {
   services.vaultwarden.enable = true;

@@ -50,7 +50,7 @@ in
   services.caddy.enable = true;
   services.caddy.package = pkgs.caddy.withPlugins {
     plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2-0.20250420134112-006ebb07b349" ];
-    hash = "sha256-2U+icm4GtI5Fww6U8nKzQ/+pPf63T3scTGuj1zjj4b4=";
+    hash = "sha256-ichiKX8TDsbL8zr6mAz4NHFHT4Hn2IAP4DbiEZHMQ/o=";
   };
   services.caddy.environmentFile = config.age.secrets."caddy/.env".path;
 

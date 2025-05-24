@@ -21,7 +21,7 @@ in
   services.sonarr.enable = true;
   services.sonarr.dataDir = "${prefix}/sonarr";
 
-  services.caddy.virtualHosts."sonarr.nya".extraConfig = ''
+  services.caddy.virtualHosts."sonarr.purr.systems".extraConfig = ''
     import private
     reverse_proxy http://127.0.0.1:${toString config.services.sonarr.settings.server.port}
   '';
@@ -29,32 +29,56 @@ in
   services.radarr.enable = true;
   services.radarr.dataDir = "${prefix}/radarr";
 
-  services.caddy.virtualHosts."radarr.nya".extraConfig = ''
+  services.caddy.virtualHosts."radarr.purr.systems".extraConfig = ''
     import private
     reverse_proxy http://127.0.0.1:${toString config.services.radarr.settings.server.port}
   '';
 
   services.prowlarr.enable = true;
 
-  services.caddy.virtualHosts."prowlarr.nya".extraConfig = ''
+  services.caddy.virtualHosts."prowlarr.purr.systems".extraConfig = ''
     import private
     reverse_proxy http://127.0.0.1:${toString config.services.prowlarr.settings.server.port}
   '';
 
   services.flaresolverr.enable = true;
-  # todo: remove once https://github.com/NixOS/nixpkgs/pull/388775 is merged
-  services.flaresolverr.package = pkgs.flaresolverr.overrideAttrs (
-    final: prev: {
-      version = "3.3.21-unstable-2025-03-04";
 
-      src = pkgs.fetchFromGitHub {
-        owner = "FlareSolverr";
-        repo = "FlareSolverr";
-        rev = "ce5369dd413cd71a81ce38a5ccd379f6c9352e23";
-        hash = "sha256-cZ/YT4H2OU5l3AosROnkoyT5qrva5lxKshQMS626f2E=";
-      };
+  age.secrets."transmission.json".file = ../../../secrets/transmission.json.age;
 
-      meta = builtins.removeAttrs prev.meta [ "broken" ];
-    }
-  );
+  services.transmission = {
+    enable = true;
+    # TODO: revert to pkgs.transmission_4 once version > 4.0.6
+    # package = pkgs.transmission_4;
+    package = pkgs.transmission_4.overrideAttrs (
+      final: prev: {
+        version = "4.0.5";
+        src = pkgs.fetchFromGitHub {
+          owner = "transmission";
+          repo = "transmission";
+          rev = final.version;
+          hash = "sha256-gd1LGAhMuSyC/19wxkoE2mqVozjGPfupIPGojKY0Hn4=";
+          fetchSubmodules = true;
+        };
+      }
+    );
+    home = "${prefix}/transmission";
+    openRPCPort = true;
+    downloadDirPermissions = "775";
+    settings = {
+      umask = "002"; # let "media" group write
+      rpc-authentication-required = true;
+      rpc-host-whitelist-enabled = false;
+      rpc-whitelist = "127.0.0.1,192.168.1.*,10.0.0.*";
+      rpc-username = "user";
+      rpc-bind-address = "0.0.0.0";
+      download-dir = "${prefix}/library/downloads";
+    };
+    credentialsFile = config.age.secrets."transmission.json".path;
+  };
+
+  users.groups.media = { };
+  services.jellyfin.group = "media";
+  services.sonarr.group = "media";
+  services.radarr.group = "media";
+  services.transmission.group = "media";
 }

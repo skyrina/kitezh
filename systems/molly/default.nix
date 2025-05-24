@@ -28,7 +28,10 @@
 
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ intel-media-driver ];
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vpl-gpu-rt
+    ];
   };
 
   time.timeZone = "Europe/Bucharest";
