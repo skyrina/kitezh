@@ -4,6 +4,14 @@ let
   prefix = "/media/arr";
 in
 {
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vpl-gpu-rt
+    ];
+  };
+
   services.jellyfin.enable = true;
   services.jellyfin.cacheDir = "${prefix}/jellyfin/cache";
   services.jellyfin.configDir = "${prefix}/jellyfin/config";
