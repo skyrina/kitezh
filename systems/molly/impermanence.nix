@@ -17,7 +17,9 @@
       "/etc/NetworkManager/system-connections"
       "/var/lib/docker"
       "/var/lib/pds"
-      "/var/lib/postgres"
+      "/var/lib/postgresql"
+      "/var/lib/archisteamfarm"
+      "/var/lib/caddy"
       # "/var/lib/nomad" # TODO: delete
 
       # kubernetes

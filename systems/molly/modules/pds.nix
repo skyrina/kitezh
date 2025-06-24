@@ -9,6 +9,8 @@
   services.pds = {
     enable = true;
     settings = {
+      PDS_VERSION = "boobies";
+
       PDS_HOSTNAME = "purr.systems";
       PDS_PORT = 3333;
 

@@ -12,6 +12,8 @@ in
 
   "wireguard/molly.age".publicKeys = all;
 
+  "asfIpcPassword.age".publicKeys = all;
+
   "minio.env.age".publicKeys = all;
   "ntfy.env.age".publicKeys = all;
   "pds.env.age".publicKeys = all;

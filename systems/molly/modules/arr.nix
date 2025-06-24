@@ -43,6 +43,7 @@ in
   '';
 
   services.prowlarr.enable = true;
+  services.prowlarr.dataDir = "${prefix}/prowlarr";
 
   services.caddy.virtualHosts."prowlarr.purr.systems".extraConfig = ''
     import private
