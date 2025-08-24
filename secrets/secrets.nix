@@ -20,4 +20,6 @@ in
   "thermo.env.age".publicKeys = all;
 
   "transmission.json.age".publicKeys = all;
+
+  "tailscale/headscaleOidcSecret.age".publicKeys = all;
 }

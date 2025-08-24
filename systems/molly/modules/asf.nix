@@ -15,7 +15,7 @@
       username = "skycinth";
       settings = {
         FarmingPreferences = 8;
-        GamesPlayedWhileIdle = [ 1671210 ];
+        GamesPlayedWhileIdle = [ ];
         LootableTypes = [ ];
         MatchableTypes = [ ];
         OnlineStatus = 0;

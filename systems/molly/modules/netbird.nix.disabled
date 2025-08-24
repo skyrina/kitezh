@@ -1,0 +1,83 @@
+{
+  config,
+  ...
+}:
+
+let
+  cfg = config.services.netbird.server;
+  oidcUrl = config.services.pocket-id.settings.APP_URL;
+  oidcClientId = "e5fb2b9a-e7b2-486e-9075-c8d22e1e9547";
+  certPathPrefix = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/wildcard_.purr.systems/wildcard_.purr.systems";
+in
+{
+  age.secrets."netbird/turnsecret".file = ../../../secrets/netbird/turnsecret.age;
+  age.secrets."netbird/datastoreenckey".file = ../../../secrets/netbird/datastoreenckey.age;
+  age.secrets."netbird/coturnpass" = {
+    file = ../../../secrets/netbird/coturnpass.age;
+    mode = "660";
+    owner = "turnserver";
+    group = "turnserver";
+  };
+
+  services.netbird.server = {
+    enable = true;
+    domain = "net.purr.systems";
+    dashboard = {
+      enable = true;
+      settings = {
+        AUTH_AUTHORITY = oidcUrl;
+        AUTH_CLIENT_ID = oidcClientId;
+        AUTH_AUDIENCE = oidcClientId;
+        AUTH_SUPPORTED_SCOPES = "openid profile email";
+      };
+    };
+    signal.metricsPort = 9410;
+    management = {
+      metricsPort = 9409;
+      oidcConfigEndpoint = "${oidcUrl}/.well-known/openid-configuration";
+      turnDomain = config.services.netbird.server.domain;
+      settings = {
+        TURNConfig.Secret._secret = config.age.secrets."netbird/turnsecret".path;
+        DataStoreEncryptionKey._secret = config.age.secrets."netbird/datastoreenckey".path;
+        HttpConfig = {
+          AuthAudience = oidcClientId;
+          AuthIssuer = oidcUrl;
+        };
+        PKCEAuthorizationFlow.ProviderConfig = {
+          ClientID = oidcClientId;
+          Audience = oidcClientId;
+          TokenEndpoint = "${oidcUrl}/api/oidc/token";
+          AuthorizationEndpoint = "${oidcUrl}/authorize";
+          UseIDToken = true;
+        };
+      };
+    };
+    coturn = {
+      enable = true;
+      passwordFile = config.age.secrets."netbird/coturnpass".path;
+      useAcmeCertificates = false;
+      domain = "home.purr.systems";
+    };
+  };
+
+  services.coturn = {
+    pkey = "${certPathPrefix}.key";
+    cert = "${certPathPrefix}.crt";
+  };
+
+  users.groups.caddy.members = [ "turnserver" ];
+
+  services.caddy.virtualHosts."${cfg.domain}".extraConfig = ''
+    route {
+      reverse_proxy /signalexchange.SignalExchange/* http://127.0.0.1:${toString cfg.signal.port}
+      reverse_proxy /management.ManagementService/* http://127.0.0.1:${toString cfg.management.port}
+      reverse_proxy /api/* http://127.0.0.1:${toString cfg.management.port}
+
+      handle {
+        root * ${cfg.dashboard.finalDrv}
+        try_files {path} {path}.html {path}/ =404
+        file_server
+      }
+    }
+  '';
+}

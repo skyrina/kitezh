@@ -20,6 +20,13 @@
       "/var/lib/postgresql"
       "/var/lib/archisteamfarm"
       "/var/lib/caddy"
+      "/var/lib/headscale"
+      # "/var/lib/traccar" # TODO: delete
+      # {
+      #   directory = "/var/lib/netbird-mgmt"; # TODO: delete
+      #   user = "netbird";
+      #   group = "netbird";
+      # }
       # "/var/lib/nomad" # TODO: delete
 
       # kubernetes
